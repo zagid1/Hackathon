@@ -45,8 +45,11 @@ _FORMS = {
     "Публичное акционерное общество": "ПАО", "Публичным акционерным обществом": "ПАО",
     "Публичного акционерного общества": "ПАО",
 }
+_FORMS_LOWER = {k.lower(): v for k, v in _FORMS.items()}
+# ОПФ в любом регистре («ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ»), кавычки «», "", “”, „“.
 _ORG_RE = re.compile(
-    "(" + "|".join(re.escape(f) for f in sorted(_FORMS, key=len, reverse=True)) + r")[\s ]*«([^«»]{1,120})»")
+    "(?<![А-Яа-яЁё])(" + "|".join(re.escape(f) for f in sorted(_FORMS, key=len, reverse=True)) + ")"
+    r"[\s\u00a0]*(?:«([^«»]{1,120})»|[\"“„]([^\"“”„«»]{1,120})[\"”“])", re.IGNORECASE)
 _WORD = r"[А-ЯЁ][а-яё]+"
 _FIO_RE = re.compile(rf"(?<![А-Яа-яЁё])({_WORD}(?:-{_WORD})?)\s+({_WORD})\s+"
                      rf"([А-ЯЁ][а-яё]*(?:вич|вн|ич|чн|шн)[а-яё]{{0,3}})(?![А-Яа-яЁё])")
@@ -89,7 +92,7 @@ def _yo(s: str) -> str:
 
 
 def normalize_org(form: str, core: str) -> str:
-    return _yo(f"{_FORMS[form]} {core.strip().upper()}")
+    return _yo(f"{_FORMS_LOWER[form.lower()]} {core.strip().upper()}")
 
 
 def normalize_fio(surname: str, name: str, patronymic: str) -> Optional[str]:
@@ -137,14 +140,24 @@ def _name_fallback(word: str, gender: Optional[str]) -> str:
     return word
 
 
+_SURNAME_ENDINGS = re.compile(r"(?:ов|ев|ёв|ин|ын|ова|ева|ёва|ина|ына|ский|цкий|ская|цкая|ко|их|ых|ук|юк|ян|дзе|швили)$")
+
+
+def _looks_like_surname(word: str) -> bool:
+    """Слово перед инициалами («Иванов И. И.») — фамилия, а не должность («Министр А.В. ...»)."""
+    if _SURNAME_ENDINGS.search(word.lower()):
+        return True
+    return any("Surn" in p.tag for p in _models()["pymorphy"].parse(word))
+
+
 def find_initials(text: str, page: int = 1) -> list[dict]:
     """«И.И. Иванов» и «Иванов И. И.»; normalized = «Иванов И. И.» (фамилия — как в тексте)."""
     out = []
     pos = 0
     while (m := _INITIALS_RE.search(text, pos)) is not None:
         init, surname = (m.group(1), m.group(2)) if m.group(1) else (m.group(4), m.group(3))
-        if surname in _NOT_SURNAMES:      # «Руководитель Л.С.» — ищем дальше со следующего символа
-            pos = m.start() + 1
+        if surname in _NOT_SURNAMES or (m.group(3) and not _looks_like_surname(surname)):
+            pos = m.start() + 1           # «Руководитель Л.С.», «Министр А.В. Ларин» — ищем дальше
             continue
         pos = m.end()
         letters = re.findall(r"[А-ЯЁ]", init)
@@ -154,7 +167,7 @@ def find_initials(text: str, page: int = 1) -> list[dict]:
 
 
 def find_orgs(text: str, page: int = 1) -> list[dict]:
-    return [{"type": "ORG", "value": m.group(0), "normalized": normalize_org(m.group(1), m.group(2)),
+    return [{"type": "ORG", "value": m.group(0), "normalized": normalize_org(m.group(1), m.group(2) or m.group(3)),
              "page": page, "span": [m.start(), m.end()], "source": "rules"}
             for m in _ORG_RE.finditer(text)]
 
@@ -195,9 +208,33 @@ def find_natasha(text: str, page: int = 1, skip: Optional[list[list[int]]] = Non
     return out
 
 
+_IP_RE = re.compile(r"(?<![А-Яа-яЁё])(Индивидуальн(?:ый|ым|ого)\s+предпринимател(?:ь|ем|я)|ИП)[\s\u00a0]+",
+                    re.IGNORECASE)
+
+
+def find_individual_entrepreneurs(text: str, page: int = 1, full_names: Optional[list[dict]] = None) -> list[dict]:
+    """«Индивидуальный предприниматель Борисов Кирилл Андреевич», «ИП Борисов К. А.» -> ORG «ИП БОРИСОВ КИРИЛЛ
+    АНДРЕЕВИЧ» (ФИО — в именительном падеже). Сам ФИО в таком случае не считается отдельным лицом."""
+    names = full_names if full_names is not None else find_full_names(text, page)
+    initials = find_initials(text, page)
+    out = []
+    for m in _IP_RE.finditer(text):
+        person = next((e for e in names + initials if e["span"][0] == m.end()), None)
+        if person is None:
+            continue
+        out.append({"type": "ORG", "value": text[m.start():person["span"][1]],
+                    "normalized": _yo(f"ИП {person['normalized'].upper()}"), "page": page,
+                    "span": [m.start(), person["span"][1]], "source": "rules"})
+    return out
+
+
 def extract_entities(text: str, page: int = 1) -> list[dict]:
-    """PERSON и ORG на странице, отсортированные по позиции."""
-    rules = find_orgs(text, page) + find_full_names(text, page)
+    """PERSON и ORG на странице, отсортированные по позиции. Наименования организаций (в т.ч. ИП)
+    имеют приоритет: ФИО внутри наименования ИП отдельным лицом не считается."""
+    full = find_full_names(text, page)
+    orgs = find_orgs(text, page) + find_individual_entrepreneurs(text, page, full)
+    org_spans = [o["span"] for o in orgs]
+    rules = orgs + [e for e in full if not _overlaps(e["span"], org_spans)]
     taken = [e["span"] for e in rules]
     rules += [e for e in find_initials(text, page) if not _overlaps(e["span"], taken)]
     found = rules + find_natasha(text, page, [e["span"] for e in rules])

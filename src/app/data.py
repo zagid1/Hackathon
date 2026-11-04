@@ -14,8 +14,8 @@ from typing import Optional
 
 import networkx as nx
 
-from src.graph.build import (add_document_edges, affiliation_graph, build_graph, load_extracted,
-                             node, shortest_path_to)
+from src.graph.build import (add_document_edges, affiliation_graph, affiliation_path, build_graph,
+                             load_extracted, node)
 
 INDICATOR_NAMES = {"I1": "И1 Концентрация", "I2": "И2 Аффилированность", "I3": "И3 Конкуренция",
                    "I4": "И4 Цена", "I7": "И7 Полномочия"}
@@ -156,6 +156,7 @@ class GraphCache:
         if extracted_dir and Path(extracted_dir).exists():
             self.doc_stats = add_document_edges(self.g, conn, load_extracted(extracted_dir))
         self.gaff = affiliation_graph(self.g)
+        self.gstrong = affiliation_graph(self.g, ("RELATIVE", "EX_EMPLOYER"))
 
 
 def signal_subgraph(conn: sqlite3.Connection, cache: GraphCache, sid: int) -> tuple[nx.MultiGraph, set[str], list[str]]:
@@ -223,7 +224,7 @@ def signal_subgraph(conn: sqlite3.Connection, cache: GraphCache, sid: int) -> tu
     if s["indicator"] == "I2" and s["object_type"] == "contract":
         targets = {node("organization", sup)} | {nb for _, nb, d in g.edges(node("organization", sup), data=True)
                                                  if d["rel"] in ("DIRECTOR", "FOUNDER")}
-        path = shortest_path_to(cache.gaff, [emp], targets, 2) or []
+        path = affiliation_path(cache.gaff, cache.gstrong, [emp], targets, 2) or []
         for u, v in zip(path, path[1:]):
             link(u, v, cache.gaff.edges[u, v]["rel"], source="db", on_path=True)
         key |= set(path)

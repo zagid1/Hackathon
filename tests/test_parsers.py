@@ -116,3 +116,23 @@ def test_unsupported_and_detect(tmp_path):
         read_pages(pdf)
     assert detect_type(["ПРИКАЗ\n..."]) == "ORDER" and detect_type(["Протокол № 1"]) == "PROTOCOL"
     assert detect_type(["Письмо"]) is None
+
+
+def test_real_style_documents_regression():
+    """Документы в стиле реальных протоколов ЕИС: прямые кавычки, ОПФ заглавными, «Российский рубль»,
+    роли справа от ФИО. Порог ниже 1,0 — парсеры дорабатывались по этим же документам."""
+    from src.evaluation.extraction_eval import evaluate_handwritten
+    r = evaluate_handwritten()
+    assert all(m["f1"] >= 0.9 for m in r["metrics"].values()), r["metrics"]
+
+
+def test_extraction_eval_on_small_corpus(small_build, tmp_path):
+    from src.evaluation.extraction_eval import evaluate
+    out, _ = small_build
+    run(sorted((out / "docs").glob("*.docx")), tmp_path)
+    r = evaluate(out / "docs", tmp_path)
+    assert r["missing_predictions"] == 0 and r["inn_valid_checksum_share"] == 1.0
+    # PERSON strict < 1: подписант приказа инициалами (полного ФИО в документе нет) и неоднозначные инициалы;
+    # на малом корпусе приказов относительно много, поэтому порог 0,9.
+    assert r["entities_span"]["ORG"]["f1"] == 1.0 and r["entities_span"]["PERSON"]["f1"] == 1.0
+    assert r["entities_strict"]["PERSON"]["f1"] >= 0.9

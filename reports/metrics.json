@@ -1,0 +1,294 @@
+{
+  "generated_from": "config/settings.yaml",
+  "dev_seed": 42,
+  "holdout_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "determinism": {
+    "content_equal": true,
+    "signals_equal": true,
+    "content_sha256": "aa0a9361142de910163e4cb7df1b3a8e0379d450829b07cfcb43faa57ce0a760",
+    "signals_sha256": "6fb2e35863084f3aff2eb1be3f95fd6dec53f3217e254d4152950e4ede2ccba1"
+  },
+  "seconds": {
+    "data_no_docs": 1.1,
+    "signals": 0.19,
+    "data_with_docs": 64.9,
+    "extract": 95.9,
+    "extract_docs": 1542
+  },
+  "signals": {
+    "recall": [
+      {
+        "metric": "S1 → I2 (contract)",
+        "dev": 1.0,
+        "found": "60/60",
+        "holdout_mean": 1.0,
+        "holdout_min": 1.0
+      },
+      {
+        "metric": "S1 → I1 (employee)",
+        "dev": 0.25,
+        "found": "1/4",
+        "holdout_mean": 0.1,
+        "holdout_min": 0.0
+      },
+      {
+        "metric": "S2 → I1 (employee)",
+        "dev": 1.0,
+        "found": "3/3",
+        "holdout_mean": 1.0,
+        "holdout_min": 1.0
+      },
+      {
+        "metric": "S3 → I3 (employee)",
+        "dev": 1.0,
+        "found": "2/2",
+        "holdout_mean": 1.0,
+        "holdout_min": 1.0
+      },
+      {
+        "metric": "S3 → I3 (procurement)",
+        "dev": 1.0,
+        "found": "26/26",
+        "holdout_mean": 1.0,
+        "holdout_min": 1.0
+      },
+      {
+        "metric": "S4 → I4 (contract)",
+        "dev": 1.0,
+        "found": "42/42",
+        "holdout_mean": 1.0,
+        "holdout_min": 1.0
+      },
+      {
+        "metric": "S5 → I7 (contract)",
+        "dev": 1.0,
+        "found": "29/29",
+        "holdout_mean": 1.0,
+        "holdout_min": 1.0
+      }
+    ],
+    "precision": [
+      {
+        "metric": "I1 (employee)",
+        "dev": 1.0,
+        "found": "4/4",
+        "holdout_mean": 0.883,
+        "holdout_min": 0.667
+      },
+      {
+        "metric": "I2 (contract)",
+        "dev": 0.857,
+        "found": "60/70",
+        "holdout_mean": 0.803,
+        "holdout_min": 0.712
+      },
+      {
+        "metric": "I3 (employee)",
+        "dev": 0.5,
+        "found": "2/4",
+        "holdout_mean": 0.733,
+        "holdout_min": 0.5
+      },
+      {
+        "metric": "I3 (procurement)",
+        "dev": 0.897,
+        "found": "26/29",
+        "holdout_mean": 0.962,
+        "holdout_min": 0.9
+      },
+      {
+        "metric": "I4 (contract)",
+        "dev": 0.56,
+        "found": "42/75",
+        "holdout_mean": 0.637,
+        "holdout_min": 0.356
+      },
+      {
+        "metric": "I7 (contract)",
+        "dev": 1.0,
+        "found": "29/29",
+        "holdout_mean": 1.0,
+        "holdout_min": 1.0
+      }
+    ]
+  },
+  "signals_summary": {
+    "precision_at_50": {
+      "dev": 0.84,
+      "holdout_mean": 0.82,
+      "holdout_min": 0.72
+    },
+    "clean_flag_rate": {
+      "dev": 0.0246,
+      "holdout_mean": 0.0217,
+      "holdout_max": 0.0246
+    }
+  },
+  "extraction_corpus": {
+    "note": "Синтетический корпус генератора (3 шаблона на тип документа); живых размеченных документов нет.",
+    "documents": 1542,
+    "by_doc_type": {
+      "ORDER": 26,
+      "PROTOCOL": 1516
+    },
+    "missing_predictions": 0,
+    "entities_span": {
+      "INN": {
+        "tp": 4124,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "MONEY": {
+        "tp": 6787,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "OGRN": {
+        "tp": 1216,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ORG": {
+        "tp": 5280,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERSON": {
+        "tp": 12765,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "entities_strict": {
+      "INN": {
+        "tp": 4124,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "MONEY": {
+        "tp": 6787,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "OGRN": {
+        "tp": 1216,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ORG": {
+        "tp": 5280,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERSON": {
+        "tp": 12595,
+        "fp": 170,
+        "fn": 170,
+        "precision": 0.9867,
+        "recall": 0.9867,
+        "f1": 0.9867
+      }
+    },
+    "relations": {
+      "BID": {
+        "tp": 3755,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "MEMBER": {
+        "tp": 134,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "WINNER": {
+        "tp": 1516,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "inn_valid_checksum_share": 1.0
+  },
+  "extraction_handwritten": {
+    "before": {
+      "PERSON": 0.7,
+      "ORG": 0.6,
+      "INN": 1.0,
+      "MONEY": 0.9,
+      "BID": 0.571,
+      "WINNER": 0.5,
+      "ORDER_META": 1.0
+    },
+    "after": {
+      "BID": 1.0,
+      "INN": 1.0,
+      "MONEY": 1.0,
+      "ORDER_META": 1.0,
+      "ORG": 1.0,
+      "PERSON": 1.0,
+      "WINNER": 1.0
+    }
+  },
+  "extraction_holdout": {
+    "first_run": {
+      "BID": 0.8,
+      "INN": 1.0,
+      "MONEY": 1.0,
+      "ORDER_META": 1.0,
+      "ORG": 0.889,
+      "PERSON": 0.968,
+      "WINNER": 1.0
+    },
+    "current": {
+      "BID": 1.0,
+      "INN": 1.0,
+      "MONEY": 1.0,
+      "ORDER_META": 1.0,
+      "ORG": 1.0,
+      "PERSON": 1.0,
+      "WINNER": 1.0
+    },
+    "errors": []
+  }
+}

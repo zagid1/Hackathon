@@ -42,8 +42,15 @@ def _assign_relative_directors(w: World, relatives: list[int], busy_orgs: set[in
             set_director(w, org, pid, also_founder=rng.random() < 0.5)
 
 
+DATA_CONFIG_KEYS = ("seed", "generator", "schemes", "documents")
+
+
 def config_hash(cfg: dict) -> str:
-    return hashlib.sha256(json.dumps(cfg, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+    """Хэш только тех разделов конфига, от которых зависят данные: правка порогов индикаторов
+    не должна менять «отпечаток» набора данных."""
+    part = {k: cfg.get(k) for k in DATA_CONFIG_KEYS}
+    part["docs_subdir"] = cfg.get("paths", {}).get("docs_subdir")
+    return hashlib.sha256(json.dumps(part, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
 
 
 def generate(cfg: dict, docs_dir: Optional[Path] = None) -> World:

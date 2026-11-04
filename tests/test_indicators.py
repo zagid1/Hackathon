@@ -11,7 +11,7 @@ from src.indicators.base import name_variants, pct, percentile
 from src.indicators.run import decision_summary, employee_overview, run, signals_hash
 
 # Эталонный хэш сигналов для config/settings.yaml (seed 42); обновлять вместе с GOLDEN_CONTENT_SHA256.
-GOLDEN_SIGNALS_SHA256 = "8bb8d7e5aab1eb8453ba0ae0f646bcd96052167d597d2e13dc38405bfb954639"
+GOLDEN_SIGNALS_SHA256 = "6fb2e35863084f3aff2eb1be3f95fd6dec53f3217e254d4152950e4ede2ccba1"
 
 
 @pytest.fixture(scope="module")
@@ -125,3 +125,24 @@ def test_strength_ranges():
     assert strength("I2", 1, 2, "contract") == 1.0
     assert 0 <= strength("I1", 0.8, 0.4, "employee") <= 1
     assert strength("I4", 0.0035, 0.005, "contract") == 0.5
+
+
+def test_tail_probability():
+    from src.indicators.i3_competition import tail_probability
+    assert tail_probability([0.5, 0.5], 0) == 1.0
+    assert abs(tail_probability([0.5, 0.5], 2) - 0.25) < 1e-12
+    assert abs(tail_probability([0.1, 0.2, 0.3], 1) - (1 - 0.9 * 0.8 * 0.7)) < 1e-12
+
+
+def test_affiliation_path_ignores_weak_chains():
+    import networkx as nx
+
+    from src.graph.build import affiliation_path
+    g = nx.Graph()
+    g.add_edge("employee:1", "employee:2", rel="SAME_PROJECT")
+    g.add_edge("employee:2", "person:9", rel="RELATIVE")       # коллега по проекту — родственник директора
+    g.add_edge("employee:3", "person:8", rel="SAME_PROJECT")   # прямой общий проект с директором
+    strong = nx.Graph([(u, v, d) for u, v, d in g.edges(data=True) if d["rel"] != "SAME_PROJECT"])
+    assert affiliation_path(g, strong, ["employee:1"], {"person:9"}, 2) is None
+    assert affiliation_path(g, strong, ["employee:2"], {"person:9"}, 2) == ["employee:2", "person:9"]
+    assert affiliation_path(g, strong, ["employee:3"], {"person:8"}, 2) == ["employee:3", "person:8"]

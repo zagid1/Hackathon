@@ -1,12 +1,14 @@
 """И2 Аффилированность (уровень контракта).
 
-Сигнал, если в графе есть путь длины <= i2_max_path от участника закупки (ответственный, подписант,
-член комиссии) до поставщика или его директора/учредителя по рёбрам RELATIVE, EX_EMPLOYER, SAME_PROJECT.
+Сигнал, если от участника закупки (ответственный, подписант, член комиссии) до поставщика или его
+директора/учредителя есть прямая связь RELATIVE, EX_EMPLOYER или SAME_PROJECT, либо путь длины <= i2_max_path
+только по «сильным» рёбрам (i2_strong_types: родство, бывший работодатель). Путь через общий проект с
+коллегой, у которого есть связь с поставщиком, слишком слабый: на синтетике это 19 из 29 ложных срабатываний.
 """
 
 from __future__ import annotations
 
-from src.graph.build import affiliation_graph, node, parse_node, shortest_path_to
+from src.graph.build import affiliation_graph, affiliation_path, node, parse_node
 
 from .base import Context, Signal, lower_first, short_name
 
@@ -20,6 +22,7 @@ REL_TEXT = {"RELATIVE": "родственник", "EX_EMPLOYER": "бывший �
 def compute(ctx: Context) -> list[Signal]:
     max_len = ctx.icfg["i2_max_path"]
     gaff = affiliation_graph(ctx.graph)
+    gstrong = affiliation_graph(ctx.graph, ctx.icfg.get("i2_strong_types", ["RELATIVE", "EX_EMPLOYER"]))
     out = []
     for cid, c in sorted(ctx.contracts.items()):
         p = ctx.procurements[c["procurement_id"]]
@@ -31,7 +34,7 @@ def compute(ctx: Context) -> list[Signal]:
 
         sup = c["supplier"]
         targets = {node("organization", sup)} | {node("person", pid) for pid, _ in ctx.org_people[sup]}
-        path = shortest_path_to(gaff, [node("employee", e) for e in roles], targets, max_len)
+        path = affiliation_path(gaff, gstrong, [node("employee", e) for e in roles], targets, max_len)
         if path is None:
             continue
 

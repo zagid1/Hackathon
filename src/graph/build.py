@@ -78,6 +78,15 @@ def shortest_path_to(gaff: nx.Graph, sources: Iterable[str], targets: set[str],
     return best[3] if best else None
 
 
+
+def affiliation_path(gaff: nx.Graph, gstrong: nx.Graph, sources: Iterable[str], targets: set[str],
+                     max_len: int) -> Optional[list[str]]:
+    """Путь для И2: прямая связь любого допустимого типа (длина 1) или путь до max_len только по «сильным»
+    рёбрам (родство, бывший работодатель). Цепочки через общие проекты («коллега коллеги») — слабые и
+    сигналом не считаются."""
+    sources = list(sources)
+    return shortest_path_to(gaff, sources, targets, 1) or shortest_path_to(gstrong, sources, targets, max_len)
+
 # --- Рёбра из распознанных документов (src/extraction/pipeline.py) ----------------------------------
 # Типы: MEMBER_DOC (лицо — группа, из приказа), AFFILIATION_DOC (лицо — организация, из приказа),
 # COMMISSION_DOC (член комиссии — закупка), BID_DOC / WINNER_DOC (организация — закупка, из протокола).

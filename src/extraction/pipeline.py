@@ -26,7 +26,7 @@ from src.generator.documents import read_docx_pages
 from .order import parse_order
 from .protocol import parse_protocol
 
-EXTRACTOR_VERSION = "2"
+EXTRACTOR_VERSION = "4"
 
 
 class UnsupportedDocument(ValueError):

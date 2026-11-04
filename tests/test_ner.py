@@ -70,3 +70,10 @@ def test_quality_on_generated_corpus(small_build):
     assert total > 200 and init_total > 30
     assert hit / total >= 0.98 and norm_ok / total >= 0.97
     assert init_hit / init_total >= 0.95
+
+
+def test_individual_entrepreneur_is_org_not_person():
+    text = "1 | Индивидуальный предприниматель Борисов Кирилл Андреевич | 500312345614 | 598 500,00\nИП Петров П. П."
+    ents = extract_entities(text)
+    assert [(e["type"], e["normalized"]) for e in ents] == [("ORG", "ИП БОРИСОВ КИРИЛЛ АНДРЕЕВИЧ"),
+                                                            ("ORG", "ИП ПЕТРОВ П. П.")]
