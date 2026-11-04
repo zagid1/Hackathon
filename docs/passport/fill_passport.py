@@ -4,7 +4,10 @@
 (нужен python-pptx; в requirements.txt проекта он не входит — это разовый инструмент оформления).
 
 Заменяется только текст в квадратных скобках; оформление шаблона (шрифты, цвета, номера «01  ») сохраняется.
-Поля, которые знает только команда (вуз, название команды, ФИО, опыт, название трека), остаются в скобках.
+Поля, которые знает только команда (вуз, название команды, ФИО, опыт, ссылка на репозиторий), остаются в скобках.
+Блок 10 «Приложения» в шаблоне отсутствует (9 слайдов) — он создаётся копией слайда 7 по описанию из брифинга
+организаторов (19.10.2026): презентация, репозиторий с инструкцией запуска, ролик, схемы, описание данных, тесты.
+На титул добавляются поля «Прототип» и «Запуск» — брифинг требует в блоке 1 ссылку на прототип или порядок доступа.
 Цифры качества — из reports/metrics.md (синтетика, seed 42 и отложенные seed 1–5).
 """
 
@@ -19,7 +22,7 @@ from pptx import Presentation
 CONTENT: dict[tuple[int, str], list[str]] = {
     # 01 Карточка проекта
     (1, "TextBox 10"): ["Сигналы риска в решениях служащих с объяснением и документом-основанием"],
-    (1, "TextBox 13"): ["Направление 4 — [название трека]"],
+    (1, "TextBox 13"): ["04 — аналитика подразделений профилактики"],
 
     # 02 Проблема и целевая аудитория
     (2, "TextBox 8"): ["Риски в решениях служащих — закупки, полномочия, связи — ищут вручную и поздно"],
@@ -105,6 +108,32 @@ CONTENT: dict[tuple[int, str], list[str]] = {
     (9, "TextBox 25"): ["Индикаторы, оценка качества, UI, паспорт"],
 }
 
+# Блок 10 «Приложения» (копия слайда 7): поля-заглушки копии и обычный текст заголовков.
+BLOCK10_PLACEHOLDERS: dict[str, list[str]] = {
+    "TextBox 12": ["Файл презентации на 10 минут защиты по шаблону организаторов [добавить в архив]"],
+    "TextBox 15": ["[ссылка на репозиторий] · README: docker compose up --build, версии, зависимости, шаги"],
+    "TextBox 18": ["Демонстрация ключевого сценария до 10 мин [файл]; сценарий — docs/demo_script.md"],
+    "TextBox 21": ["Схема данных — src/models/schema.sql; техсхема и данные — docs/TECHNICAL.md"],
+    "TextBox 24": ["99 автотестов (make test); метрики качества — reports/metrics.md"],
+}
+BLOCK10_TEXT: dict[str, list[str]] = {
+    "TextBox 1": ["10 / ПАСПОРТ ПРОЕКТА"],
+    "TextBox 2": ["ПРИЛОЖЕНИЯ"],
+    "TextBox 3": ["Что входит в архив и где это найти"],
+    "TextBox 6": ["10/10"],
+    "TextBox 8": ["Материал"],
+    "TextBox 9": ["Где найти"],
+    "TextBox 11": ["Презентация"],
+    "TextBox 14": ["Репозиторий и запуск"],
+    "TextBox 17": ["Ролик"],
+    "TextBox 20": ["Схемы и описание данных"],
+    "TextBox 23": ["Тесты и метрики"],
+}
+# Поля «Прототип» и «Запуск» на титуле: копии подписи/значения левой колонки, сдвинутые в правую.
+TITLE_EXTRA = [("TextBox 12", "TextBox 13", "ПРОТОТИП", "[ссылка на репозиторий]"),
+               ("TextBox 18", "TextBox 19", "ЗАПУСК", "docker compose up --build")]
+RIGHT_COLUMN_X = int(6.82 * 914400)
+
 # Четвёртая строка таблицы команды и подсказка не нужны (в команде три человека).
 DELETE = {(9, "TextBox 28"), (9, "TextBox 29"), (9, "TextBox 30"), (9, "TextBox 31"), (9, "TextBox 32")}
 
@@ -147,8 +176,61 @@ def fill(shape, texts: list[str]) -> None:
         p_el.getparent().remove(p_el)
 
 
+def set_text(shape, texts: list[str]) -> None:
+    """Заменить весь текст фигуры, сохранив оформление первого прогона каждого абзаца."""
+    from pptx.text.text import _Paragraph
+
+    tf = shape.text_frame
+    pars = [p._p for p in tf.paragraphs]
+    while len(pars) < len(texts):
+        new = copy.deepcopy(pars[-1])
+        pars[-1].addnext(new)
+        pars.append(new)
+    for p_el, text in zip(pars, texts):
+        par = _Paragraph(p_el, tf)
+        runs = par.runs
+        if not runs:
+            par.add_run().text = text
+            continue
+        runs[0].text = text
+        for r in runs[1:]:
+            r._r.getparent().remove(r._r)
+    for p_el in pars[len(texts):]:
+        p_el.getparent().remove(p_el)
+
+
+def duplicate_slide(prs, index: int):
+    """Копия слайда (фон и фигуры) в конец презентации. У исходных слайдов-таблиц нет картинок."""
+    src = prs.slides[index]
+    dst = prs.slides.add_slide(src.slide_layout)
+    # python-pptx кэширует dst.shapes на текущем spTree — меняем его содержимое, а не сам элемент
+    dst_tree, src_tree = dst._element.cSld.spTree, src._element.cSld.spTree
+    for child in list(dst_tree):
+        dst_tree.remove(child)
+    for child in src_tree:
+        dst_tree.append(copy.deepcopy(child))
+    src_bg = src._element.cSld.bg
+    if src_bg is not None:
+        dst_tree.addprevious(copy.deepcopy(src_bg))
+    return dst
+
+
+def add_title_fields(slide) -> None:
+    by_name = {sh.name: sh for sh in slide.shapes}
+    for label_name, value_name, label, value in TITLE_EXTRA:
+        for name, text in ((label_name, label), (value_name, value)):
+            el = copy.deepcopy(by_name[name]._element)
+            slide.shapes._spTree.append(el)
+            shape = slide.shapes[-1]
+            shape.left = RIGHT_COLUMN_X
+            shape.name = f"{name} right"
+            set_text(shape, [text])
+
+
 def main(src: str, dst: str) -> None:
     prs = Presentation(src)
+    block10 = duplicate_slide(prs, 6)          # копия слайда 7 (до заполнения — в ней ещё заглушки)
+    add_title_fields(prs.slides[0])
     done = set()
     for i, slide in enumerate(prs.slides, start=1):
         for shape in list(slide.shapes):
@@ -159,6 +241,11 @@ def main(src: str, dst: str) -> None:
             elif key in CONTENT:
                 fill(shape, CONTENT[key])
                 done.add(key)
+    for shape in block10.shapes:
+        if shape.name in BLOCK10_PLACEHOLDERS:
+            fill(shape, BLOCK10_PLACEHOLDERS[shape.name])
+        elif shape.name in BLOCK10_TEXT:
+            set_text(shape, BLOCK10_TEXT[shape.name])
     # слайд 9: без четвёртой строки карточка таблицы заканчивается у линии под третьей строкой
     team = prs.slides[8]
     line = next(sh for sh in team.shapes if sh.name == "Connector 27")
