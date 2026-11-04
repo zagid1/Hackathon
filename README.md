@@ -116,3 +116,11 @@ Natasha 1.6.0 + pymorphy3 2.0.6, python-docx 1.2.0, PyYAML 6.0.3, pytest 9.2.0.
   распознавание, граф, UI, разбор ложных срабатываний.
 * [reports/metrics.md](reports/metrics.md) — метрики.
 * [PLAN.md](PLAN.md) — исходная спецификация.
+* [docs/passport/Паспорт_проекта.pptx](docs/passport/Паспорт_проекта.pptx) — паспорт проекта (шаблон «10 блоков»);
+  пересобирается скриптом `docs/passport/fill_passport.py` из шаблона.
+* [docs/demo_script.md](docs/demo_script.md) — сценарий ролика.
+
+## Архив для сдачи
+
+`make dist` (или `git archive --format=zip --prefix=kod-prozrachnosti/ -o dist/kod-prozrachnosti.zip HEAD`) —
+архив из последнего коммита, без `.venv` и сгенерированных данных (они создаются при `docker compose up`).

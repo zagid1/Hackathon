@@ -4,3 +4,4 @@ __pycache__/
 .pytest_cache/
 data/synthetic/*
 !data/synthetic/.gitkeep
+dist/

@@ -1,7 +1,7 @@
 PYTHON ?= python
 CONFIG ?= config/settings.yaml
 
-.PHONY: data extract signals eval eval-extract metrics app test clean
+.PHONY: data extract signals eval eval-extract metrics app test dist clean
 
 data:
 	$(PYTHON) -m src.generator.run --config $(CONFIG)
@@ -26,6 +26,12 @@ app:
 
 test:
 	$(PYTHON) -m pytest
+
+dist:
+	@git diff --quiet HEAD || (echo "Есть незакоммиченные изменения — архив собирается из HEAD"; exit 1)
+	mkdir -p dist
+	git archive --format=zip --prefix=kod-prozrachnosti/ -o dist/kod-prozrachnosti.zip HEAD
+	@echo "dist/kod-prozrachnosti.zip"
 
 clean:
 	rm -rf data/synthetic/* .pytest_cache
