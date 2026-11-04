@@ -1,6 +1,6 @@
 """Заполнение шаблона паспорта проекта (10 блоков «Код прозрачности») фактами прототипа.
 
-Запуск: python docs/passport/fill_passport.py ШАБЛОН.pptx docs/passport/Паспорт_проекта.pptx
+Запуск: python docs/passport/fill_passport.py ШАБЛОН.pptx docs/passport/passport.pptx
 (нужен python-pptx; в requirements.txt проекта он не входит — это разовый инструмент оформления).
 
 Заменяется только текст в квадратных скобках; оформление шаблона (шрифты, цвета, номера «01  ») сохраняется.

@@ -2,3 +2,4 @@
 *.docx binary
 *.db binary
 *.pptx binary
+.claude export-ignore
