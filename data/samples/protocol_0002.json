@@ -1,0 +1,168 @@
+{
+ "db_document_id": 28,
+ "doc_id": "protocol_0002",
+ "doc_type": "PROTOCOL",
+ "entities": [
+  {
+   "normalized": 154447.42,
+   "page": 1,
+   "role": "NMCK",
+   "span": [
+    200,
+    220
+   ],
+   "type": "MONEY",
+   "value": "154 447 руб. 42 коп."
+  },
+  {
+   "normalized": "Гаврилов Станислав Матвеевич",
+   "page": 1,
+   "ref": "employee:32",
+   "role": "COMMISSION_SECRETARY",
+   "span": [
+    238,
+    266
+   ],
+   "type": "PERSON",
+   "value": "Гаврилов Станислав Матвеевич"
+  },
+  {
+   "normalized": "Ковалева Мария Андреевна",
+   "page": 1,
+   "ref": "employee:20",
+   "role": "COMMISSION_CHAIR",
+   "span": [
+    288,
+    312
+   ],
+   "type": "PERSON",
+   "value": "Ковалева Мария Андреевна"
+  },
+  {
+   "normalized": "Голубев Денис Алексеевич",
+   "page": 1,
+   "ref": "employee:28",
+   "role": "COMMISSION_DEPUTY_CHAIR",
+   "span": [
+    337,
+    361
+   ],
+   "type": "PERSON",
+   "value": "Голубев Денис Алексеевич"
+  },
+  {
+   "normalized": "Федоров Александр Георгиевич",
+   "page": 1,
+   "ref": "employee:118",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    398,
+    426
+   ],
+   "type": "PERSON",
+   "value": "Федоров Александр Георгиевич"
+  },
+  {
+   "normalized": "Калашников Сергей Владиславович",
+   "page": 1,
+   "ref": "employee:100",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    443,
+    474
+   ],
+   "type": "PERSON",
+   "value": "Калашников Сергей Владиславович"
+  },
+  {
+   "normalized": 152424.15,
+   "page": 2,
+   "role": "BID",
+   "span": [
+    37,
+    52
+   ],
+   "type": "MONEY",
+   "value": "152 424,15 руб."
+  },
+  {
+   "normalized": "ПАО КОНТИНЕНТ ТЕХНОЛОГИИ",
+   "page": 2,
+   "ref": "organization:25",
+   "role": "BIDDER",
+   "span": [
+    55,
+    108
+   ],
+   "type": "ORG",
+   "value": "Публичное акционерное общество «Континент Технологии»"
+  },
+  {
+   "page": 2,
+   "ref": "organization:25",
+   "span": [
+    114,
+    124
+   ],
+   "type": "INN",
+   "valid_checksum": true,
+   "value": "7802633346"
+  },
+  {
+   "page": 2,
+   "ref": "organization:25",
+   "span": [
+    131,
+    144
+   ],
+   "type": "OGRN",
+   "value": "1207802940366"
+  },
+  {
+   "normalized": "ПАО КОНТИНЕНТ ТЕХНОЛОГИИ",
+   "page": 2,
+   "ref": "organization:25",
+   "role": "WINNER",
+   "span": [
+    195,
+    249
+   ],
+   "type": "ORG",
+   "value": "Публичным акционерным обществом «Континент Технологии»"
+  },
+  {
+   "normalized": 152424.15,
+   "page": 2,
+   "role": "CONTRACT_PRICE",
+   "span": [
+    259,
+    279
+   ],
+   "type": "MONEY",
+   "value": "152 424 руб. 15 коп."
+  }
+ ],
+ "pages": 2,
+ "relations": [
+  {
+   "evidence_span": [
+    25,
+    145
+   ],
+   "from": "ORG:ПАО КОНТИНЕНТ ТЕХНОЛОГИИ",
+   "page": 2,
+   "to": "MONEY:152424.15",
+   "type": "BID"
+  },
+  {
+   "evidence_span": [
+    146,
+    302
+   ],
+   "from": "ORG:ПАО КОНТИНЕНТ ТЕХНОЛОГИИ",
+   "page": 2,
+   "to": "PROCUREMENT:2",
+   "type": "WINNER"
+  }
+ ]
+}

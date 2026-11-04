@@ -1,0 +1,262 @@
+{
+ "db_document_id": 32,
+ "doc_id": "protocol_0007",
+ "doc_type": "PROTOCOL",
+ "entities": [
+  {
+   "normalized": 1386496.8,
+   "page": 1,
+   "role": "NMCK",
+   "span": [
+    182,
+    199
+   ],
+   "type": "MONEY",
+   "value": "1386496.80 рублей"
+  },
+  {
+   "normalized": "Ковалева Мария Андреевна",
+   "page": 1,
+   "ref": "employee:20",
+   "role": "COMMISSION_CHAIR",
+   "span": [
+    242,
+    267
+   ],
+   "type": "PERSON",
+   "value": "Ковалевой Марии Андреевны"
+  },
+  {
+   "normalized": "Голубев Денис Алексеевич",
+   "page": 1,
+   "ref": "employee:28",
+   "role": "COMMISSION_DEPUTY_CHAIR",
+   "span": [
+    294,
+    321
+   ],
+   "type": "PERSON",
+   "value": "Голубева Дениса Алексеевича"
+  },
+  {
+   "normalized": "Харитонов Аркадий Леонидович",
+   "page": 1,
+   "ref": "employee:97",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    339,
+    369
+   ],
+   "type": "PERSON",
+   "value": "Харитонова Аркадия Леонидовича"
+  },
+  {
+   "normalized": "Никифоров Олег Владиславович",
+   "page": 1,
+   "ref": "employee:106",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    371,
+    402
+   ],
+   "type": "PERSON",
+   "value": "Никифорова Олега Владиславовича"
+  },
+  {
+   "normalized": "Баранов Степан Павлович",
+   "page": 1,
+   "ref": "employee:30",
+   "role": "COMMISSION_SECRETARY",
+   "span": [
+    423,
+    449
+   ],
+   "type": "PERSON",
+   "value": "Баранова Степана Павловича"
+  },
+  {
+   "normalized": "АО ЗЕНИТИНФОРМ",
+   "page": 2,
+   "ref": "organization:47",
+   "role": "BIDDER",
+   "span": [
+    86,
+    102
+   ],
+   "type": "ORG",
+   "value": "АО «Зенитинформ»"
+  },
+  {
+   "page": 2,
+   "ref": "organization:47",
+   "span": [
+    105,
+    115
+   ],
+   "type": "INN",
+   "valid_checksum": true,
+   "value": "7725984481"
+  },
+  {
+   "normalized": 1319113.05,
+   "page": 2,
+   "role": "BID",
+   "span": [
+    118,
+    130
+   ],
+   "type": "MONEY",
+   "value": "1 319 113,05"
+  },
+  {
+   "normalized": "ООО ИРБИС ИНФОРМ",
+   "page": 2,
+   "ref": "organization:61",
+   "role": "BIDDER",
+   "span": [
+    135,
+    153
+   ],
+   "type": "ORG",
+   "value": "ООО «Ирбис Информ»"
+  },
+  {
+   "page": 2,
+   "ref": "organization:61",
+   "span": [
+    156,
+    166
+   ],
+   "type": "INN",
+   "valid_checksum": true,
+   "value": "7725267942"
+  },
+  {
+   "normalized": 1255056.9,
+   "page": 2,
+   "role": "BID",
+   "span": [
+    169,
+    181
+   ],
+   "type": "MONEY",
+   "value": "1 255 056,90"
+  },
+  {
+   "normalized": "ООО ИРБИС ИНФОРМ",
+   "page": 2,
+   "ref": "organization:61",
+   "role": "WINNER",
+   "span": [
+    256,
+    274
+   ],
+   "type": "ORG",
+   "value": "ООО «Ирбис Информ»"
+  },
+  {
+   "normalized": 1255056.9,
+   "page": 2,
+   "role": "CONTRACT_PRICE",
+   "span": [
+    304,
+    321
+   ],
+   "type": "MONEY",
+   "value": "1 255 056,90 руб."
+  },
+  {
+   "normalized": "Ковалева Мария Андреевна",
+   "page": 2,
+   "ref": "employee:20",
+   "role": "COMMISSION_CHAIR",
+   "span": [
+    348,
+    362
+   ],
+   "type": "PERSON",
+   "value": "Ковалева М. А."
+  },
+  {
+   "normalized": "Голубев Денис Алексеевич",
+   "page": 2,
+   "ref": "employee:28",
+   "role": "COMMISSION_DEPUTY_CHAIR",
+   "span": [
+    364,
+    377
+   ],
+   "type": "PERSON",
+   "value": "Голубев Д. А."
+  },
+  {
+   "normalized": "Харитонов Аркадий Леонидович",
+   "page": 2,
+   "ref": "employee:97",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    379,
+    394
+   ],
+   "type": "PERSON",
+   "value": "Харитонов А. Л."
+  },
+  {
+   "normalized": "Никифоров Олег Владиславович",
+   "page": 2,
+   "ref": "employee:106",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    396,
+    411
+   ],
+   "type": "PERSON",
+   "value": "Никифоров О. В."
+  },
+  {
+   "normalized": "Баранов Степан Павлович",
+   "page": 2,
+   "ref": "employee:30",
+   "role": "COMMISSION_SECRETARY",
+   "span": [
+    413,
+    426
+   ],
+   "type": "PERSON",
+   "value": "Баранов С. П."
+  }
+ ],
+ "pages": 2,
+ "relations": [
+  {
+   "evidence_span": [
+    82,
+    130
+   ],
+   "from": "ORG:АО ЗЕНИТИНФОРМ",
+   "page": 2,
+   "to": "MONEY:1319113.05",
+   "type": "BID"
+  },
+  {
+   "evidence_span": [
+    131,
+    181
+   ],
+   "from": "ORG:ООО ИРБИС ИНФОРМ",
+   "page": 2,
+   "to": "MONEY:1255056.90",
+   "type": "BID"
+  },
+  {
+   "evidence_span": [
+    182,
+    322
+   ],
+   "from": "ORG:ООО ИРБИС ИНФОРМ",
+   "page": 2,
+   "to": "PROCUREMENT:7",
+   "type": "WINNER"
+  }
+ ]
+}

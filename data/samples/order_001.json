@@ -1,0 +1,137 @@
+{
+ "db_document_id": 1,
+ "doc_id": "order_001",
+ "doc_type": "ORDER",
+ "entities": [
+  {
+   "normalized": "Воронин Тимофей Иванович",
+   "page": 2,
+   "ref": "employee:27",
+   "role": "COMMISSION_CHAIR",
+   "span": [
+    73,
+    97
+   ],
+   "type": "PERSON",
+   "value": "Воронин Тимофей Иванович"
+  },
+  {
+   "normalized": "Куликов Илья Павлович",
+   "page": 2,
+   "ref": "employee:21",
+   "role": "COMMISSION_DEPUTY_CHAIR",
+   "span": [
+    178,
+    199
+   ],
+   "type": "PERSON",
+   "value": "Куликов Илья Павлович"
+  },
+  {
+   "normalized": "Гаврилов Станислав Матвеевич",
+   "page": 2,
+   "ref": "employee:32",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    287,
+    315
+   ],
+   "type": "PERSON",
+   "value": "Гаврилов Станислав Матвеевич"
+  },
+  {
+   "normalized": "Соболева Алла Алексеевна",
+   "page": 2,
+   "ref": "employee:26",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    390,
+    414
+   ],
+   "type": "PERSON",
+   "value": "Соболева Алла Алексеевна"
+  },
+  {
+   "normalized": "Родионов Александр Олегович",
+   "page": 2,
+   "ref": "employee:10",
+   "role": "COMMISSION_SECRETARY",
+   "span": [
+    486,
+    513
+   ],
+   "type": "PERSON",
+   "value": "Родионов Александр Олегович"
+  },
+  {
+   "normalized": "Лукьянова Людмила Степановна",
+   "page": 2,
+   "ref": "employee:1",
+   "role": "SIGNATORY",
+   "span": [
+    608,
+    622
+   ],
+   "type": "PERSON",
+   "value": "Л.С. Лукьянова"
+  }
+ ],
+ "pages": 2,
+ "relations": [
+  {
+   "evidence_span": [
+    73,
+    177
+   ],
+   "from": "PERSON:Воронин Тимофей Иванович",
+   "page": 2,
+   "role": "CHAIR",
+   "to": "GROUP:1",
+   "type": "MEMBER"
+  },
+  {
+   "evidence_span": [
+    178,
+    286
+   ],
+   "from": "PERSON:Куликов Илья Павлович",
+   "page": 2,
+   "role": "DEPUTY_CHAIR",
+   "to": "GROUP:1",
+   "type": "MEMBER"
+  },
+  {
+   "evidence_span": [
+    287,
+    389
+   ],
+   "from": "PERSON:Гаврилов Станислав Матвеевич",
+   "page": 2,
+   "role": "MEMBER",
+   "to": "GROUP:1",
+   "type": "MEMBER"
+  },
+  {
+   "evidence_span": [
+    390,
+    485
+   ],
+   "from": "PERSON:Соболева Алла Алексеевна",
+   "page": 2,
+   "role": "MEMBER",
+   "to": "GROUP:1",
+   "type": "MEMBER"
+  },
+  {
+   "evidence_span": [
+    486,
+    591
+   ],
+   "from": "PERSON:Родионов Александр Олегович",
+   "page": 2,
+   "role": "SECRETARY",
+   "to": "GROUP:1",
+   "type": "MEMBER"
+  }
+ ]
+}

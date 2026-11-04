@@ -1,0 +1,71 @@
+# Единый файл параметров прототипа. Меняя seed или параметры генератора, получаем другую,
+# но снова воспроизводимую синтетику. Пороги индикаторов используются с Этапа 2.
+
+seed: 42
+
+paths:
+  data_dir: data/synthetic      # сюда пишет `make data` (в .gitignore)
+  db_file: synthetic.db
+  docs_subdir: docs
+
+generator:
+  agency_name: "Федеральное агентство условного регулирования"   # вымышленное ведомство
+  period_start: "2024-01-01"
+  period_end: "2025-12-31"
+
+  # оргструктура: 1 ведомство -> departments департаментов -> sections_per_department отделов в каждом
+  departments: 5
+  sections_per_department: 4
+  employees: 150
+  proc_employees: 30            # служащие с функцией PROC (весь департамент закупок)
+
+  organizations: 300
+  relatives:
+    employee_share: 0.10        # у ~10% служащих есть сведения о родственниках
+    max_per_employee: 2
+    director_share: 0.30        # доля фоновых родственников, руководящих фирмами
+  ex_employer_share: 0.06       # доля служащих с бывшим местом работы в коммерческой организации
+
+  commissions: 12               # постоянно действующие закупочные комиссии
+  workgroups: 8                 # рабочие группы (приказы)
+  projects: 6                   # проектные группы (могут включать внешних лиц)
+
+  procurements: 2000
+  amendment_share: 0.15         # доля контрактов с допсоглашениями (фон)
+
+  noise:                        # честный, но «подозрительно выглядящий» фон
+    short_deadline_share: 0.08  # срок подачи ровно по законодательному минимуму
+    low_drop_share: 0.03        # снижение < 0,5% при нескольких заявках
+
+documents:
+  render_files: true            # false -> строки documents/doc_fragments в БД есть, DOCX не пишутся
+  max_protocols: null           # null = протокол на каждую конкурентную закупку с заявками
+
+# Внедряемые схемы (ground truth в таблице injected_schemes, в UI не показывать)
+schemes:
+  S1:                           # аффилированный поставщик
+    responsible_employees: 3    # родственник ответственного за закупку руководит фирмой
+    commission_members: 1       # родственник члена комиссии руководит фирмой
+    win_share: 0.5              # доля «подходящих» закупок, которые выигрывает фирма
+  S2:                           # концентрация
+    employees: 3
+    target_share: 0.72          # целевая доля стоимости контрактов у «своей» фирмы (> 0.6)
+  S3:                           # ограничение конкуренции
+    employees: 2
+    share: 0.6                  # доля конкурентных закупок служащего: минимальный срок + 1 заявка
+  S4:                           # раздувание цены
+    employees: 2
+    share: 0.35
+  S5:                           # подписание сверх полномочий
+    signers: 2
+    share: 0.12                 # доля контрактов отдела подписанта, подписанных им самим
+
+indicators:                     # Этап 2
+  min_decisions: 5
+  percentile_high: 90
+  percentile_low: 10
+  i2_max_path: 2
+  i4_min_drop: 0.005
+  i4_growth: 0.10               # ст. 95 44-ФЗ — перепроверить по актуальной редакции
+  i4_min_amendments: 2
+  weights: {I1: 1.0, I2: 1.0, I3: 1.0, I4: 1.0, I7: 1.0}

@@ -1,0 +1,317 @@
+{
+ "db_document_id": 27,
+ "doc_id": "protocol_0001",
+ "doc_type": "PROTOCOL",
+ "entities": [
+  {
+   "normalized": 1328709.19,
+   "page": 1,
+   "role": "NMCK",
+   "span": [
+    360,
+    377
+   ],
+   "type": "MONEY",
+   "value": "1 328 709,19 руб."
+  },
+  {
+   "normalized": "Яблонская Кристина Федоровна",
+   "page": 1,
+   "ref": "employee:5",
+   "role": "COMMISSION_CHAIR",
+   "span": [
+    524,
+    552
+   ],
+   "type": "PERSON",
+   "value": "Яблонская Кристина Федоровна"
+  },
+  {
+   "normalized": "Голубев Денис Алексеевич",
+   "page": 1,
+   "ref": "employee:28",
+   "role": "COMMISSION_DEPUTY_CHAIR",
+   "span": [
+    588,
+    612
+   ],
+   "type": "PERSON",
+   "value": "Голубев Денис Алексеевич"
+  },
+  {
+   "normalized": "Фомин Станислав Леонидович",
+   "page": 1,
+   "ref": "employee:149",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    628,
+    654
+   ],
+   "type": "PERSON",
+   "value": "Фомин Станислав Леонидович"
+  },
+  {
+   "normalized": "Антонова Вера Андреевна",
+   "page": 1,
+   "ref": "employee:128",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    670,
+    693
+   ],
+   "type": "PERSON",
+   "value": "Антонова Вера Андреевна"
+  },
+  {
+   "normalized": "Воробьев Артем Константинович",
+   "page": 1,
+   "ref": "employee:24",
+   "role": "COMMISSION_SECRETARY",
+   "span": [
+    714,
+    743
+   ],
+   "type": "PERSON",
+   "value": "Воробьев Артем Константинович"
+  },
+  {
+   "normalized": "АО ЗЕНИТИНФОРМ",
+   "page": 2,
+   "ref": "organization:47",
+   "role": "BIDDER",
+   "span": [
+    67,
+    83
+   ],
+   "type": "ORG",
+   "value": "АО «Зенитинформ»"
+  },
+  {
+   "page": 2,
+   "ref": "organization:47",
+   "span": [
+    89,
+    99
+   ],
+   "type": "INN",
+   "valid_checksum": true,
+   "value": "7725984481"
+  },
+  {
+   "normalized": 1286456.23,
+   "page": 2,
+   "role": "BID",
+   "span": [
+    131,
+    148
+   ],
+   "type": "MONEY",
+   "value": "1 286 456,23 руб."
+  },
+  {
+   "normalized": "ООО ИНТЕГРАЛ ИНФОРМ",
+   "page": 2,
+   "ref": "organization:48",
+   "role": "BIDDER",
+   "span": [
+    152,
+    173
+   ],
+   "type": "ORG",
+   "value": "ООО «Интеграл Информ»"
+  },
+  {
+   "page": 2,
+   "ref": "organization:48",
+   "span": [
+    179,
+    189
+   ],
+   "type": "INN",
+   "valid_checksum": true,
+   "value": "5003912340"
+  },
+  {
+   "normalized": 1256958.89,
+   "page": 2,
+   "role": "BID",
+   "span": [
+    221,
+    238
+   ],
+   "type": "MONEY",
+   "value": "1 256 958,89 руб."
+  },
+  {
+   "normalized": "ООО СТАНДАРТИНФОРМ",
+   "page": 2,
+   "ref": "organization:39",
+   "role": "BIDDER",
+   "span": [
+    242,
+    262
+   ],
+   "type": "ORG",
+   "value": "ООО «Стандартинформ»"
+  },
+  {
+   "page": 2,
+   "ref": "organization:39",
+   "span": [
+    268,
+    278
+   ],
+   "type": "INN",
+   "valid_checksum": true,
+   "value": "7701935799"
+  },
+  {
+   "normalized": 1202348.94,
+   "page": 2,
+   "role": "BID",
+   "span": [
+    310,
+    327
+   ],
+   "type": "MONEY",
+   "value": "1 202 348,94 руб."
+  },
+  {
+   "normalized": "ООО СТАНДАРТИНФОРМ",
+   "page": 2,
+   "ref": "organization:39",
+   "role": "WINNER",
+   "span": [
+    367,
+    387
+   ],
+   "type": "ORG",
+   "value": "ООО «Стандартинформ»"
+  },
+  {
+   "page": 2,
+   "ref": "organization:39",
+   "span": [
+    393,
+    403
+   ],
+   "type": "INN",
+   "valid_checksum": true,
+   "value": "7701935799"
+  },
+  {
+   "normalized": 1202348.94,
+   "page": 2,
+   "role": "CONTRACT_PRICE",
+   "span": [
+    437,
+    454
+   ],
+   "type": "MONEY",
+   "value": "1 202 348,94 руб."
+  },
+  {
+   "normalized": "Яблонская Кристина Федоровна",
+   "page": 2,
+   "ref": "employee:5",
+   "role": "COMMISSION_CHAIR",
+   "span": [
+    539,
+    553
+   ],
+   "type": "PERSON",
+   "value": "К.Ф. Яблонская"
+  },
+  {
+   "normalized": "Голубев Денис Алексеевич",
+   "page": 2,
+   "ref": "employee:28",
+   "role": "COMMISSION_DEPUTY_CHAIR",
+   "span": [
+    601,
+    613
+   ],
+   "type": "PERSON",
+   "value": "Д.А. Голубев"
+  },
+  {
+   "normalized": "Фомин Станислав Леонидович",
+   "page": 2,
+   "ref": "employee:149",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    641,
+    651
+   ],
+   "type": "PERSON",
+   "value": "С.Л. Фомин"
+  },
+  {
+   "normalized": "Антонова Вера Андреевна",
+   "page": 2,
+   "ref": "employee:128",
+   "role": "COMMISSION_MEMBER",
+   "span": [
+    679,
+    692
+   ],
+   "type": "PERSON",
+   "value": "В.А. Антонова"
+  },
+  {
+   "normalized": "Воробьев Артем Константинович",
+   "page": 2,
+   "ref": "employee:24",
+   "role": "COMMISSION_SECRETARY",
+   "span": [
+    725,
+    738
+   ],
+   "type": "PERSON",
+   "value": "А.К. Воробьев"
+  }
+ ],
+ "pages": 2,
+ "relations": [
+  {
+   "evidence_span": [
+    64,
+    148
+   ],
+   "from": "ORG:АО ЗЕНИТИНФОРМ",
+   "page": 2,
+   "to": "MONEY:1286456.23",
+   "type": "BID"
+  },
+  {
+   "evidence_span": [
+    149,
+    238
+   ],
+   "from": "ORG:ООО ИНТЕГРАЛ ИНФОРМ",
+   "page": 2,
+   "to": "MONEY:1256958.89",
+   "type": "BID"
+  },
+  {
+   "evidence_span": [
+    239,
+    327
+   ],
+   "from": "ORG:ООО СТАНДАРТИНФОРМ",
+   "page": 2,
+   "to": "MONEY:1202348.94",
+   "type": "BID"
+  },
+  {
+   "evidence_span": [
+    328,
+    455
+   ],
+   "from": "ORG:ООО СТАНДАРТИНФОРМ",
+   "page": 2,
+   "to": "PROCUREMENT:1",
+   "type": "WINNER"
+  }
+ ]
+}

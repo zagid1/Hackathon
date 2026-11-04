@@ -1,0 +1,114 @@
+{
+ "db_document_id": 14,
+ "doc_id": "order_014",
+ "doc_type": "ORDER",
+ "entities": [
+  {
+   "normalized": "Ефимов Глеб Николаевич",
+   "page": 1,
+   "ref": "employee:102",
+   "role": "WORKGROUP_LEADER",
+   "span": [
+    311,
+    336
+   ],
+   "type": "PERSON",
+   "value": "Ефимова Глеба Николаевича"
+  },
+  {
+   "normalized": "Вишневская Лариса Владимировна",
+   "page": 1,
+   "ref": "employee:105",
+   "role": "WORKGROUP_MEMBER",
+   "span": [
+    440,
+    470
+   ],
+   "type": "PERSON",
+   "value": "Вишневскую Ларису Владимировну"
+  },
+  {
+   "normalized": "Соколова Алина Ивановна",
+   "page": 1,
+   "ref": "employee:94",
+   "role": "WORKGROUP_MEMBER",
+   "span": [
+    535,
+    558
+   ],
+   "type": "PERSON",
+   "value": "Соколову Алину Ивановну"
+  },
+  {
+   "normalized": "Тимофеева Мария Ярославовна",
+   "page": 1,
+   "ref": "employee:93",
+   "role": "WORKGROUP_SECRETARY",
+   "span": [
+    635,
+    662
+   ],
+   "type": "PERSON",
+   "value": "Тимофееву Марию Ярославовну"
+  },
+  {
+   "normalized": "Лукьянова Людмила Степановна",
+   "page": 1,
+   "ref": "employee:1",
+   "role": "SIGNATORY",
+   "span": [
+    687,
+    702
+   ],
+   "type": "PERSON",
+   "value": "Лукьянова Л. С."
+  }
+ ],
+ "pages": 1,
+ "relations": [
+  {
+   "evidence_span": [
+    284,
+    399
+   ],
+   "from": "PERSON:Ефимов Глеб Николаевич",
+   "page": 1,
+   "role": "LEADER",
+   "to": "GROUP:14",
+   "type": "MEMBER"
+  },
+  {
+   "evidence_span": [
+    400,
+    610
+   ],
+   "from": "PERSON:Вишневская Лариса Владимировна",
+   "page": 1,
+   "role": "MEMBER",
+   "to": "GROUP:14",
+   "type": "MEMBER"
+  },
+  {
+   "evidence_span": [
+    400,
+    610
+   ],
+   "from": "PERSON:Соколова Алина Ивановна",
+   "page": 1,
+   "role": "MEMBER",
+   "to": "GROUP:14",
+   "type": "MEMBER"
+  },
+  {
+   "evidence_span": [
+    611,
+    663
+   ],
+   "from": "PERSON:Тимофеева Мария Ярославовна",
+   "page": 1,
+   "role": "SECRETARY",
+   "to": "GROUP:14",
+   "type": "MEMBER"
+  }
+ ]
+}
