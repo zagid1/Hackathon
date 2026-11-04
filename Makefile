@@ -16,7 +16,7 @@ eval:
 	$(PYTHON) -m src.evaluation.signals_eval --config $(CONFIG)
 
 app:
-	@echo "make app: Этап 3 (UI), ещё не реализовано"; exit 1
+	$(PYTHON) -m streamlit run src/app/streamlit_app.py --server.headless true --server.address 0.0.0.0 --browser.gatherUsageStats false
 
 test:
 	$(PYTHON) -m pytest

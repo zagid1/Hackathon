@@ -15,7 +15,6 @@ pymorphy2==0.9.1
 pymorphy2-dicts-ru==2.4.417127.4579844
 DAWG-Python==0.7.2
 DAWG2-Python==0.9.0
-setuptools==84.2.1
 docopt==0.6.2
 navec==0.10.0
 numpy==2.4.6
@@ -25,6 +24,57 @@ yargy==0.16.0
 ipymarkup==0.9.0
 intervaltree==3.2.1
 sortedcontainers==2.4.0
+setuptools==84.2.1
+
+# UI: Streamlit + pyvis (граф; JS встраивается в страницу, интернет не нужен)
+altair==6.3.0
+anyio==4.16.0
+asttokens==3.0.2
+attrs==26.1.0
+certifi==2026.10.23
+charset-normalizer==3.5.2
+click==8.5.0
+executing==2.3.0
+h11==0.16.0
+idna==3.20
+ipython==9.18.1
+ipython_pygments_lexers==1.1.1
+itsdangerous==2.2.0
+jedi==0.20.1
+Jinja2==3.1.6
+jsonpickle==4.1.4
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+MarkupSafe==3.0.4
+matplotlib-inline==0.2.2
+narwhals==2.28.0
+pandas==3.1.1
+parso==0.8.7
+pexpect==4.9.0; sys_platform != "win32"
+pillow==13.0.0
+prompt_toolkit==3.0.53
+protobuf==7.36.2
+psutil==7.2.2
+ptyprocess==0.7.0; sys_platform != "win32"
+pure_eval==0.2.4
+pyarrow==26.0.1
+pydeck==0.9.3
+python-dateutil==4.0.0
+python-multipart==0.0.33
+pyvis==0.3.2
+referencing==0.37.0
+requests==2.34.2
+rpds-py==2026.9.1
+stack-data==0.6.3
+starlette==1.10.0
+streamlit==1.66.1
+traitlets==5.16.1
+tzdata==2026.6
+urllib3==2.8.0
+uvicorn==0.54.0
+watchdog==6.0.0
+wcwidth==0.9.4
+websockets==17.4
 
 # тесты
 pytest==9.2.0

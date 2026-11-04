@@ -1,6 +1,19 @@
+# `docker compose up`: сначала pipeline строит данные (make data extract signals eval),
+# затем ui поднимает интерфейс на http://localhost:8501. Данные сохраняются в ./data.
 services:
-  app:
+  pipeline:
     build: .
     volumes:
       - ./data:/app/data
-    command: ["make", "data"]
+    command: ["make", "data", "extract", "signals", "eval"]
+
+  ui:
+    build: .
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "8501:8501"
+    command: ["make", "app"]
+    depends_on:
+      pipeline:
+        condition: service_completed_successfully
