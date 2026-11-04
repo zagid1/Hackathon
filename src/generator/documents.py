@@ -135,12 +135,26 @@ class BuiltDoc:
     relations: list[dict]
 
 
+def _no_double_dot(segs: list[Seg]) -> list[Seg]:
+    """«1 000,00 руб.» + «.» -> без второй точки в конце предложения."""
+    out: list[Seg] = []
+    for seg in segs:
+        prev = out[-1] if out else None
+        prev_text = prev.text if isinstance(prev, Ent) else (prev or "")
+        if isinstance(seg, str) and seg.startswith(".") and prev_text.endswith("."):
+            seg = seg[1:]
+            if not seg:
+                continue
+        out.append(seg)
+    return out
+
+
 class DocBuilder:
     def __init__(self) -> None:
         self.pages: list[list[Block]] = [[]]
 
     def p(self, *segs: Seg, style: Optional[str] = None) -> Block:
-        b = Block("p", [list(segs)], style)
+        b = Block("p", [_no_double_dot(list(segs))], style)
         self.pages[-1].append(b)
         return b
 

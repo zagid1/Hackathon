@@ -35,7 +35,7 @@ def test_documents_byte_identical(small_cfg, small_build, tmp_path):
 # Эталонный хэш содержимого БД для config/settings.yaml (seed 42). Совпадает на Windows/Python 3.12
 # и в Docker python:3.11-slim. Если генератор или конфиг меняются намеренно — обновите константу
 # (значение content_sha256 печатает `make data`), и проверьте его на второй машине.
-GOLDEN_CONTENT_SHA256 = "e295e8dcb1dbb710be935a7d8014caad30af336afee93679d05adf996f1e9841"
+GOLDEN_CONTENT_SHA256 = "d79a411038592116a9b19bba6f5093e02d57ef310561c193a632c4382e03e84c"
 
 
 def test_golden_content_hash(cfg, tmp_path):

@@ -1,10 +1,13 @@
 PYTHON ?= python
 CONFIG ?= config/settings.yaml
 
-.PHONY: data signals eval app test clean
+.PHONY: data extract signals eval app test clean
 
 data:
 	$(PYTHON) -m src.generator.run --config $(CONFIG)
+
+extract:
+	$(PYTHON) -m src.extraction.pipeline --config $(CONFIG)
 
 signals:
 	$(PYTHON) -m src.indicators.run --config $(CONFIG)

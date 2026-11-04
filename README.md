@@ -42,7 +42,7 @@ docker compose run --rm app make test
 * `db_sha256` — побайтный хэш файла БД; одинаков при одном seed в одном окружении (в заголовок файла
   SQLite пишет свою версию, поэтому между ОС может отличаться);
 * `content_sha256` — хэш содержимого всех таблиц; одинаков на любой машине. Для seed 42 он равен
-  `e295e8dc…e9841` (проверено на Windows/Python 3.12 и Docker python:3.11-slim) и закреплён в
+  `d79a4110…3e84c` (проверено на Windows/Python 3.12 и Docker python:3.11-slim) и закреплён в
   `tests/test_determinism.py`.
 
 `make signals` печатает `signals_sha256` — хэш вычисляемых колонок таблицы `signals` (без статуса и

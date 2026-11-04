@@ -32,3 +32,30 @@ def test_shortest_path_deterministic():
     assert shortest_path_to(g, ["employee:1"], {"person:9"}, 1) is None
     assert shortest_path_to(g, ["employee:3"], {"person:7"}, 2) is None   # путь длины 3
     assert node("employee", 4) == "employee:4"
+
+
+def test_document_edges_agree_with_db(small_build, tmp_path):
+    import sqlite3
+
+    from src.extraction.pipeline import run as extract_run
+    from src.graph.build import add_document_edges, load_extracted
+
+    out, summary = small_build
+    extract_run(sorted((out / "docs").glob("*.docx")), tmp_path)
+    conn = sqlite3.connect(summary["db_path"])
+    g = build_graph(conn)
+    stats = add_document_edges(g, conn, load_extracted(tmp_path))
+    assert stats["edges"] > 100 and stats["unknown_docs"] == 0
+    assert stats["unmatched_persons"] == 0 and stats["unmatched_orgs"] == 0
+
+    members = {(f"{mt}:{mid}", f"group:{gid}", role) for gid, mt, mid, role in
+               conn.execute("SELECT group_id, member_type, member_id, role FROM group_members")}
+    doc_members = {(u, v, d["role"]) if u.startswith(("employee", "person")) else (v, u, d["role"])
+                   for u, v, d in g.edges(data=True) if d["rel"] == "MEMBER_DOC"}
+    assert doc_members and doc_members <= members
+
+    winners = {(f"organization:{o}", f"procurement:{p}") for p, o in
+               conn.execute("SELECT procurement_id, supplier_org_id FROM contracts")}
+    doc_winners = {tuple(sorted((u, v))) for u, v, d in g.edges(data=True) if d["rel"] == "WINNER_DOC"}
+    assert doc_winners and doc_winners <= {tuple(sorted(w)) for w in winners}
+    conn.close()

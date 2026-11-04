@@ -100,3 +100,8 @@ def test_declined_names_present(corpus):
         declined += sum(1 for e in ann["entities"] if e["type"] == "PERSON"
                         and e["value"] != e["normalized"] and "." not in e["value"])
     assert declined > 20
+
+
+def test_no_double_dots(corpus):
+    _, _, frags, _ = corpus
+    assert not [t for *_, t in frags if ".." in t]

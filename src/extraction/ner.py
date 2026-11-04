@@ -8,7 +8,7 @@
   («Яблонская» -> «Яблонскай»).
 * PERSON, прочие (ФИО без отчества и т. п.) — спаны Natasha.
 * ORG — правило: «ООО/АО/ПАО/ЗАО/ОАО «...»» и полные формы в разных падежах; normalized как в
-  разделе 8: «ООО РОМАШКА». Прочие ORG-спаны Natasha (органы власти и т. п.) — с normalized = нормальная форма.
+  разделе 8: «ООО РОМАШКА». Прочие ORG-спаны Natasha (органы власти и т. п.) — с normalized = исходный текст.
 * Буква «ё» в normalized заменяется на «е».
 
 Совместимость: natasha==1.6.0 импортирует pymorphy2, который не работает на Python >= 3.11
@@ -73,12 +73,12 @@ def _models() -> dict:
     global _MODELS
     with _LOCK:
         if _MODELS is None:
-            from natasha import (MorphVocab, NamesExtractor, NewsEmbedding, NewsMorphTagger, NewsNERTagger,
+            from natasha import (MorphVocab, NamesExtractor, NewsEmbedding, NewsNERTagger,
                                  Segmenter)
             emb = NewsEmbedding()
             vocab = MorphVocab()   # подкласс pymorphy3.MorphAnalyzer с граммемами UD
             import pymorphy3
-            _MODELS = {"segmenter": Segmenter(), "vocab": vocab, "morph": NewsMorphTagger(emb),
+            _MODELS = {"segmenter": Segmenter(), "vocab": vocab,
                        "ner": NewsNERTagger(emb), "names": NamesExtractor(vocab),
                        "pymorphy": pymorphy3.MorphAnalyzer()}   # «чистые» граммемы OpenCorpora
         return _MODELS
@@ -180,19 +180,17 @@ def find_natasha(text: str, page: int = 1, skip: Optional[list[list[int]]] = Non
     skip = skip or []
     doc = Doc(text)
     doc.segment(m["segmenter"])
-    doc.tag_morph(m["morph"])
-    doc.tag_ner(m["ner"])
+    doc.tag_ner(m["ner"])          # морфология не нужна: нормализуем ФИО сами, а не через span.normalize
     out = []
     for span in doc.spans:
         sp = [span.start, span.stop]
         if _overlaps(sp, skip):
             continue
-        span.normalize(m["vocab"])
         if span.type == "PER":
             out.append({"type": "PERSON", "value": span.text, "normalized": _yo(span.text), "page": page,
                         "span": sp, "source": "natasha"})
         elif span.type == "ORG" and not span.text.lower().startswith(_ORG_STOP):
-            out.append({"type": "ORG", "value": span.text, "normalized": _yo(span.normal), "page": page,
+            out.append({"type": "ORG", "value": span.text, "normalized": _yo(span.text), "page": page,
                         "span": sp, "source": "natasha"})
     return out
 
