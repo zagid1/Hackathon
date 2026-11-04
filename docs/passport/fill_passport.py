@@ -4,7 +4,7 @@
 (нужен python-pptx; в requirements.txt проекта он не входит — это разовый инструмент оформления).
 
 Заменяется только текст в квадратных скобках; оформление шаблона (шрифты, цвета, номера «01  ») сохраняется.
-Поля, которые знает только команда (вуз, название команды, ФИО, опыт, ссылка на репозиторий), остаются в скобках.
+Поля, которые знает только команда (вуз, название команды, ФИО, опыт, название трека), остаются в скобках.
 Блок 10 «Приложения» в шаблоне отсутствует (9 слайдов) — он создаётся копией слайда 7 по описанию из брифинга
 организаторов (19.10.2026): презентация, репозиторий с инструкцией запуска, ролик, схемы, описание данных, тесты.
 На титул добавляются поля «Прототип» и «Запуск» — брифинг требует в блоке 1 ссылку на прототип или порядок доступа.
@@ -111,7 +111,7 @@ CONTENT: dict[tuple[int, str], list[str]] = {
 # Блок 10 «Приложения» (копия слайда 7): поля-заглушки копии и обычный текст заголовков.
 BLOCK10_PLACEHOLDERS: dict[str, list[str]] = {
     "TextBox 12": ["Файл презентации на 10 минут защиты по шаблону организаторов [добавить в архив]"],
-    "TextBox 15": ["[ссылка на репозиторий] · README: docker compose up --build, версии, зависимости, шаги"],
+    "TextBox 15": ["github.com/zagid1/Hackathon · README: docker compose up --build, версии, шаги"],
     "TextBox 18": ["Демонстрация ключевого сценария до 10 мин [файл]; сценарий — docs/demo_script.md"],
     "TextBox 21": ["Схема данных — src/models/schema.sql; техсхема и данные — docs/TECHNICAL.md"],
     "TextBox 24": ["99 автотестов (make test); метрики качества — reports/metrics.md"],
@@ -130,9 +130,11 @@ BLOCK10_TEXT: dict[str, list[str]] = {
     "TextBox 23": ["Тесты и метрики"],
 }
 # Поля «Прототип» и «Запуск» на титуле: копии подписи/значения левой колонки, сдвинутые в правую.
-TITLE_EXTRA = [("TextBox 12", "TextBox 13", "ПРОТОТИП", "[ссылка на репозиторий]"),
+TITLE_EXTRA = [("TextBox 12", "TextBox 13", "ПРОТОТИП", "github.com/zagid1/Hackathon"),
                ("TextBox 18", "TextBox 19", "ЗАПУСК", "docker compose up --build")]
 RIGHT_COLUMN_X = int(6.82 * 914400)
+REPO_HOST = "github.com/zagid1/Hackathon"
+REPO_URL = "https://github.com/zagid1/Hackathon"
 
 # Четвёртая строка таблицы команды и подсказка не нужны (в команде три человека).
 DELETE = {(9, "TextBox 28"), (9, "TextBox 29"), (9, "TextBox 30"), (9, "TextBox 31"), (9, "TextBox 32")}
@@ -255,6 +257,14 @@ def main(src: str, dst: str) -> None:
     missing = (set(CONTENT) | DELETE) - done
     if missing:
         raise SystemExit(f"не найдены фигуры: {sorted(missing)}")
+    # ссылка на репозиторий кликабельна везде, где упомянута
+    for slide in prs.slides:
+        for shape in slide.shapes:
+            if shape.has_text_frame:
+                for par in shape.text_frame.paragraphs:
+                    for run in par.runs:
+                        if REPO_HOST in run.text:
+                            run.hyperlink.address = REPO_URL
     prs.save(dst)
     print(f"сохранено: {dst}")
 

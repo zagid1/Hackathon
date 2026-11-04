@@ -13,9 +13,13 @@
 
 ## Запуск
 
+Репозиторий: **https://github.com/zagid1/Hackathon**
+
 Нужен Docker с Compose v2 (проверено: Docker 29.9.2, Compose v5.6.1; образ ~1,1 ГБ).
 
 ```bash
+git clone https://github.com/zagid1/Hackathon.git
+cd Hackathon
 docker compose up --build
 ```
 
